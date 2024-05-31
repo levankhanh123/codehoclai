@@ -1,10 +1,21 @@
-// Mock user data
-const users = [
-    { username: "user1", password: "password1", balance: 100, expenses: [] },
-    { username: "user2", password: "password2", balance: 200, expenses: [] }
+let users = [
+    { username: "user1", password: "password1", balance: 0, expenses: [] },
+    { username: "user2", password: "password2", balance: 0, expenses: [] }
 ];
 
 let currentUser = null;
+
+// Hàm này sẽ kiểm tra xem đã có dữ liệu về tài khoản trong localStorage hay chưa
+function initializeUsers() {
+    const storedUsers = JSON.parse(localStorage.getItem("users"));
+    if (storedUsers) {
+        // Nếu có dữ liệu trong localStorage, gán nó cho biến users
+        users = storedUsers;
+    } else {
+        // Nếu chưa có dữ liệu trong localStorage, lưu dữ liệu mặc định vào localStorage
+        updateLocalStorage();
+    }
+}
 
 function login() {
     const username = document.getElementById("username").value;
@@ -20,12 +31,18 @@ function login() {
         updateBalance();
         displayExpenses();
     } else {
-        alert("Invalid username or password");
+        alert("Tên đăng nhập hoặc mật khẩu không hợp lệ");
     }
 }
 
 function updateBalance() {
-    document.getElementById("balance").innerText = `Balance: $${currentUser.balance.toFixed(2)}`;
+    const balanceText = formatCurrency(currentUser.balance);
+    document.getElementById("balance").innerText = `Số Dư: ${balanceText}`;
+}
+
+function updateLocalStorage() {
+    // Lưu lại dữ liệu tài khoản vào localStorage
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
 function setNewBalance() {
@@ -33,8 +50,9 @@ function setNewBalance() {
     if (!isNaN(newBalance)) {
         currentUser.balance = newBalance;
         updateBalance();
+        updateLocalStorage(); // Cập nhật số dư vào localStorage
     } else {
-        alert("Please enter a valid balance amount");
+        alert("Vui lòng nhập số dư hợp lệ");
     }
 }
 
@@ -52,8 +70,9 @@ function addExpense() {
         // Cập nhật số dư và hiển thị danh sách giao dịch
         updateBalance();
         displayExpenses();
+        updateLocalStorage(); // Cập nhật số tiền chi tiêu vào localStorage
     } else {
-        alert("Please enter valid expense amount and purpose");
+        alert("Vui lòng nhập số tiền chi tiêu và mục đích hợp lệ");
     }
 }
 
@@ -64,7 +83,15 @@ function displayExpenses() {
     // Hiển thị các giao dịch chi tiêu gần đây
     currentUser.expenses.forEach(expense => {
         const li = document.createElement("li");
-        li.textContent = `-$${expense.amount.toFixed(2)} for ${expense.purpose}`;
+        li.textContent = `-$${formatCurrency(expense.amount)} cho ${expense.purpose}`;
         expenseList.appendChild(li);
     });
 }
+
+function formatCurrency(amount) {
+    // Định dạng số tiền thành chuỗi với dấu chấm ngăn cách hàng nghìn
+    return amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+}
+
+// Khởi tạo dữ liệu tài khoản khi trang web được tải
+initializeUsers();

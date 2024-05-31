@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker</title>
+    <title>Quản Lý Chi Tiêu</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Expense Tracker</h1>
+        <h1>Quản Lý Chi Tiêu</h1>
         <div id="loginPage">
-            <h2>Login</h2>
-            <input type="text" id="username" placeholder="Username">
-            <input type="password" id="password" placeholder="Password">
-            <button onclick="login()">Login</button>
+            <h2>Đăng Nhập</h2>
+            <input type="text" id="username" placeholder="Tên Đăng Nhập">
+            <input type="password" id="password" placeholder="Mật Khẩu">
+            <button onclick="login()">Đăng Nhập</button>
         </div>
         <div id="mainPage" style="display: none;">
-            <h2>Welcome <span id="loggedInUser"></span></h2>
-            <div id="balance">Balance: $0.00</div>
-            <button onclick="updateBalance()">Update Balance</button>
-            <input type="number" id="balanceAmount" placeholder="New Balance">
-            <button onclick="setNewBalance()">Set New Balance</button>
-            <input type="number" id="expenseAmount" placeholder="Expense Amount">
-            <input type="text" id="expensePurpose" placeholder="Purpose">
-            <button onclick="addExpense()">Add Expense</button>
+            <h2>Xin Chào <span id="loggedInUser"></span></h2>
+            <div id="balance">Số Dư: $0.00</div>
+            <button onclick="updateBalance()">Cập Nhật Số Dư</button>
+            <input type="number" id="balanceAmount" placeholder="Số Dư Mới">
+            <button onclick="setNewBalance()">Thiết Lập Số Dư</button>
+            <input type="number" id="expenseAmount" placeholder="Số Tiền Chi Tiêu">
+            <input type="text" id="expensePurpose" placeholder="Mục Đích">
+            <button onclick="addExpense()">Thêm Chi Tiêu</button>
             <ul id="expenseList"></ul>
         </div>
     </div>
